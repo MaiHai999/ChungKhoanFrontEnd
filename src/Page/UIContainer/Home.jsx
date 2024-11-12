@@ -1,7 +1,7 @@
-import Sidebar from '../../Components/Sidebar/Sidebar';
+import Sidebar from '../../Components/Sidebar';
 import './Home.css'
-import ModalComponent from '../../Components/ModalComponet/ModalComponent';
-import TableComponent from '../../Components/TableNV/TableComponent';
+import ModalComponent from '../../Components/ModalComponent';
+import TableComponent from '../../Components/TableComponent';
 const Home = () => {
   return (
     <div className='home'>
