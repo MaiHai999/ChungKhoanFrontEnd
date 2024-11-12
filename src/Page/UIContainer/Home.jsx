@@ -1,19 +1,24 @@
 import Sidebar from '../../Components/Sidebar';
-import './Home.css'
-import ModalComponent from '../../Components/ModalComponent';
-import TableComponent from '../../Components/TableComponent';
-const Home = () => {
+import '../../Styles/Home.css';
+import { ConfigVariable } from '../../config';
+import React, { useState } from 'react';
+import EmployeeContainer from '../Container/EmployeeContainer';
+
+const Home = ({role = ConfigVariable.roleNV}) => {
+  const [currentView, setCurrentView] = useState(ConfigVariable.NVtapQLNV);
+
+  const onItemClick = (key) => {
+    setCurrentView(key);
+  }
+
   return (
     <div className='home'>
-      <Sidebar/>
+      <Sidebar onItemClick={onItemClick} role={role}/>
       <div className='homeContainer'>
-        <div className='listContainer'>
-          <div className="listTitle">Danh sách nhân viên</div>
-          <ModalComponent title="Xóa sản phẩm" open={false}>
-            <div>Bạn có chắc xóa sản phẩm này không?</div>
-          </ModalComponent>
-          <TableComponent/>
-        </div>
+        {currentView === ConfigVariable.NVtapQLNV && (
+          <EmployeeContainer />
+        )}
+        
       </div>
     </div>
   )

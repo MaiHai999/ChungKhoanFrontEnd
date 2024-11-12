@@ -1,5 +1,5 @@
 import React from 'react'
-import './TableComponent.css'
+import '../Styles/TableComponent.css';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';

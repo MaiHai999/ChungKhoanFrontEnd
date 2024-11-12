@@ -15,8 +15,8 @@ const LoginForm = ({ company,role,setCompany, setRole, userName, setUsername, pa
     setCompany(event.target.value)
   }
   const roleOptions = [
-    {label : 'Nhân Viên', value :1},
-    {label : 'Nhà Đầu tư', value :2},
+    {label : 'Nhân Viên', value :"NV"},
+    {label : 'Nhà Đầu tư', value :"NDT"},
   ] 
   function handleSelectedRole(event){
     setRole(event.target.value)
