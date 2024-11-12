@@ -9,7 +9,7 @@ import { ConfigVariable } from "../../config";
 
 const LoginFormContainer = () => {
     const navigate = useNavigate();
-    const [company, setCompany] = useState(1)
+    const [company, setCompany] = useState('1')
     const [role, setRole] = useState("NV")
     const [userName, setUsername] = useState('')
     const [password, setPassWord] = useState('')
