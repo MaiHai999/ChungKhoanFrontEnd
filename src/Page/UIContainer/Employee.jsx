@@ -25,8 +25,6 @@ const Employee = ({handleRowClick}) => {
             'Trạng thái': 'Đang nghỉ phép'
         },]
 
-
-
     return (
         <div className='listContainer'>
             <div className="title1">Danh sách nhân viên</div>
