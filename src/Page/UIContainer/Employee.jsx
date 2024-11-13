@@ -14,18 +14,12 @@ const Employee = ({ handleRowClick,
                     address, setAddress ,
                     sex, setSex,
                     phone, setPhone,
-                    onAdd, onDelete, onUpdate, data}) => {
-    const titles = ['ID', 'Tên', 'Ngày sinh', 'Địa chỉ', 'Giới tính', 'Số điện thoại', 'Trạng thái'];
-    const options = [
-        { value: 1, label: 'Đã nghỉ việc' },
-        { value: 0, label: 'Đang làm việc' },
-    ];
-
+                    onAdd, onDelete, onUpdate, data, ho, setHo, options}) => {
+    const titles = ['ID', 'Họ','Tên', 'Ngày sinh', 'Địa chỉ', 'Giới tính', 'Số điện thoại', 'Trạng thái'];
 
     const handleChange = (selectedOption) => {
         setSelectedOption(selectedOption);
     };
-
 
     const customStyles = {
         control: (provided) => ({
@@ -52,6 +46,7 @@ const Employee = ({ handleRowClick,
         <div className='listContainer'>
             <div className="title1">Danh sách nhân viên</div>
             <div className="grid-container">
+                <InputCustom placeholder='Họ' text={ho} setText={setHo} />
                 <InputCustom placeholder='Tên' text={name} setText={setName} />
                 <InputCustom placeholder='Ngày Sinh' text={dayOfBitrh} setText={setDayOfBitrh} />
                 <InputCustom placeholder='Địa chỉ' text={address} setText={setAddress} />
@@ -64,16 +59,20 @@ const Employee = ({ handleRowClick,
                     placeholder="Trạng thái"
                     styles={customStyles}
                 />
-                <div className="grid-item">
-                    <ButtonCustom children="Thêm" className="input" onClick={onAdd}/>
-                </div>
-                <div className="grid-item">
-                    <ButtonCustom children="Xóa" className="input" onClick={onDelete}/>
-                </div>
-                <div className="grid-item">
-                    <ButtonCustom children="Sửa" className="input" onClick={onUpdate}/>
-                </div>
             </div>
+            <div className="grid-container">
+                <div className="grid-item">
+                        <ButtonCustom children="Thêm" className="input" onClick={onAdd}/>
+                    </div>
+                    <div className="grid-item">
+                        <ButtonCustom children="Xóa" className="input" onClick={onDelete}/>
+                    </div>
+                    <div className="grid-item">
+                        <ButtonCustom children="Sửa" className="input" onClick={onUpdate}/>
+                    </div>
+            </div>
+                
+            
 
             <TableComponent titles={titles} data={data} handleRowClick={handleRowClick} />
         </div>
