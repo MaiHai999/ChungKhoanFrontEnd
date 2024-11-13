@@ -10,7 +10,6 @@ export const Login = async({company, role, username, password}) => {
             username: username,
             password: password,
         }
-        console.log(data);
         const urlCall = URL + "auth/login";
         const response = await CallAPI({url:urlCall, data:data})
         return createResponseFrame(true, response.data);
