@@ -13,8 +13,8 @@ const Employee = ({ handleRowClick,
                     dayOfBitrh, setDayOfBitrh, 
                     address, setAddress ,
                     sex, setSex,
-                    phone, setPhone,
-                    onAdd, onDelete, onUpdate, data, ho, setHo, options}) => {
+                    phone, setPhone,login, setLogin, password, setPassword,
+                    onAdd, onDelete, onUpdate, data, ho, setHo, options, onAddLogin, onDeleteLogin}) => {
     const titles = ['ID', 'Họ','Tên', 'Ngày sinh', 'Địa chỉ', 'Giới tính', 'Số điện thoại', 'Trạng thái'];
 
     const handleChange = (selectedOption) => {
@@ -71,7 +71,20 @@ const Employee = ({ handleRowClick,
                         <ButtonCustom children="Sửa" className="input" onClick={onUpdate}/>
                     </div>
             </div>
-                
+            <div className="title1">Quản lý tài khoản</div>
+            <div className="grid-container1">
+                <InputCustom placeholder='Login Name' text={login} setText={setLogin} />
+                <InputCustom placeholder='Mật khẩu' text={password} setText={setPassword} />
+            </div>
+
+            <div className="grid-container1">
+                <div className="grid-item">
+                        <ButtonCustom children="Thêm" className="input" onClick={onAddLogin}/>
+                    </div>
+                    <div className="grid-item">
+                        <ButtonCustom children="Xóa" className="input" onClick={onDeleteLogin}/>
+                    </div>
+            </div>
             
 
             <TableComponent titles={titles} data={data} handleRowClick={handleRowClick} />

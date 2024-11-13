@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import * as employeeService from "../../Services/EmployeeService";
 import { mapEmployeeData } from '../../Utils/mapData';
 import * as validation from "../../Utils/ValidationHanler";
+import * as loginService from "../../Services/LoginService";
 
 const EmployeeContainer = () => {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -12,6 +13,8 @@ const EmployeeContainer = () => {
     const [address, setAddress] = useState(null);
     const [sex, setSex] = useState(null);
     const [phone, setPhone] = useState(null);
+    const [login, setLogin] = useState(null);
+    const [password, setPassword] = useState(null);
     const [data, setData] = useState([]);
     const [ho, setHo] = useState([]);
     const options = [
@@ -77,8 +80,7 @@ const EmployeeContainer = () => {
        
     }
 
-    const handleRowClick = (rowData) => {
-        console.log(rowData);
+    const handleRowClick = async(rowData) => {
         setHo(rowData["Họ"]);
         setID(rowData["ID"]);
         setName(rowData["Tên"]);
@@ -86,6 +88,7 @@ const EmployeeContainer = () => {
         setAddress(rowData["Địa chỉ"]);
         setSex(rowData["Giới tính"]);
         setPhone(rowData["Số điện thoại"]);
+        setPassword('');
         const status = rowData["Trạng thái"];
         if(status === 'Đang làm việc'){
             const defaultOption = options.find(option => option.value === 0);
@@ -95,12 +98,57 @@ const EmployeeContainer = () => {
             setSelectedOption(defaultOption);
         }
 
+        const response = await loginService.getLoginName({IDNV:rowData["ID"]})
+        if(response.isSuccess){
+            if(response.data.data.userName === null){
+                setLogin('');
+            }else{
+                setLogin(response.data.data.userName);
+            }
+        }else{
+            setLogin('');
+        }
+
+
+
     }
 
     const initData = async() => {
         const response = await employeeService.getEmployee();
         const processData = mapEmployeeData(response.data.data);
         setData(processData);
+    }
+
+    const onAddLogin = async() => {
+        try{
+            validation.inputNullValidation({values:id, notification:"Chưa chọn dòng xóa"});
+            validation.inputNullValidation({values:login, notification:"Login name không để trống"});
+            validation.inputNullValidation({values:password, notification:"Mật khẩu không để trống"});
+            const response = await loginService.addLoginName({lgname:login, passWord:password, username:id.toString()});
+            if(response.isSuccess){
+                alert("Tạo tài khoản thành công");
+            }else{
+                alert("Tạo tài khoản thất bại");
+            }
+        }catch(error){
+            alert(error);
+        }
+    }
+
+    const onDeleteLogin = async() => {
+        try{
+            validation.inputNullValidation({values:id, notification:"Chưa chọn dòng xóa"});
+            validation.inputNullValidation({values:login, notification:"Login name không để trống"});
+            const response = await loginService.deleteLoginName({lgname:login, username:id.toString()});
+            if(response.isSuccess){
+                alert("Xóa tài khoản thành công");
+            }else{
+                alert("Xóa tài khoản thất bại");
+            }
+        }catch(error){
+            alert(error);
+        }
+        
     }
 
     useEffect(() => {
@@ -129,6 +177,12 @@ const EmployeeContainer = () => {
             ho={ho}
             setHo={setHo}
             options={options}
+            login={login}
+            setLogin={setLogin}
+            password={password}
+            setPassword={setPassword}
+            onAddLogin={onAddLogin}
+            onDeleteLogin={onDeleteLogin}
         />
     )
 }
