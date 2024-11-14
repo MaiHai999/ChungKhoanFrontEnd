@@ -63,3 +63,51 @@ export const mapInvestorData = (backendData) => {
     });
 };
 
+export const mapBankData = (backendData) => {
+    const propertyMapping = {
+        "ID": "value",
+        "TENNGANHANG": "label",
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+export const mapBankAccountData = (backendData) => {
+    const propertyMapping = {
+        "MATK": "MATK",
+        "TENTAIKHOAN": "Tên tài khoản",
+        "TENNGANHANG": "Ngân hàng",
+        "SODU": "Số dư",
+        "IDNGANHANG" : "ID Ngan hàng"
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+
+
+

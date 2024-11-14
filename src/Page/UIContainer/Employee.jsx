@@ -45,7 +45,7 @@ const Employee = ({ handleRowClick,
     return (
         <div className='listContainer'>
             <div className="title1">Danh sách nhân viên</div>
-            <div className="grid-container">
+            <div className="grid-container12">
                 <InputCustom placeholder='Họ' text={ho} setText={setHo} />
                 <InputCustom placeholder='Tên' text={name} setText={setName} />
                 <InputCustom placeholder='Ngày Sinh' text={dayOfBitrh} setText={setDayOfBitrh} />
@@ -60,7 +60,7 @@ const Employee = ({ handleRowClick,
                     styles={customStyles}
                 />
             </div>
-            <div className="grid-container">
+            <div className="grid-container12">
                 <div className="grid-item">
                         <ButtonCustom children="Thêm" className="input" onClick={onAdd}/>
                     </div>
@@ -72,12 +72,12 @@ const Employee = ({ handleRowClick,
                     </div>
             </div>
             <div className="title1">Quản lý tài khoản</div>
-            <div className="grid-container1">
+            <div className="grid-container11">
                 <InputCustom placeholder='Login Name' text={login} setText={setLogin} />
                 <InputCustom placeholder='Mật khẩu' text={password} setText={setPassword} />
             </div>
 
-            <div className="grid-container1">
+            <div className="grid-container11">
                 <div className="grid-item">
                         <ButtonCustom children="Thêm" className="input" onClick={onAddLogin}/>
                     </div>

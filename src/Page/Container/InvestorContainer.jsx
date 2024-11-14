@@ -2,8 +2,9 @@
 import Investor from "../UIContainer/Investor";
 import React, { useState, useEffect } from 'react';
 import * as investorService from "../../Services/InvestorService";
-import { mapInvestorData } from "../../Utils/mapData";
-
+import { mapInvestorData, mapBankData, mapBankAccountData } from "../../Utils/mapData";
+import * as bankService from "../../Services/BankService";
+import * as validation from "../../Utils/ValidationHanler";
 
 const InvestorContainer = () => {
     const [selectedOption, setSelectedOption] = useState(null);
@@ -24,11 +25,23 @@ const InvestorContainer = () => {
     const [sodu, setSoDu] = useState(null);
     const [tenTKNH, setTenTKNH] = useState(null);
     const [maNDT, setMaNDT] = useState(null);
+    const [options, setOptions] = useState([]);
 
-    const options = [
-        { value: 1, label: 'Đã nghỉ việc' },
-        { value: 0, label: 'Đang làm việc' },
-    ];
+    const initBank = async() => {
+        const response = await bankService.getBanks();
+        if(response.isSuccess){
+            const dataProcess = mapBankData(response.data.data);
+            setOptions(dataProcess);
+        }
+    }
+
+    const initBankAcount = async(idNDT) => {
+        const response = await bankService.getBankAccount({idNDT:idNDT});
+        if(response.isSuccess){
+            const dataProcess = await mapBankAccountData(response.data.data);
+            setDataTKNH(dataProcess);
+        }
+    }
 
     const initDta = async() => {
         const response = await investorService.getInvestor();
@@ -51,6 +64,8 @@ const InvestorContainer = () => {
         setEmail(rowData["Email"] || null);
         setPlaceOfBirth(rowData["Nơi sinh"] || null);
         setNgayCap(rowData["Ngày Cấp"] || null);
+        initBankAcount(rowData["MATK"]);
+       
     }
 
     const onRefresh = () => {
@@ -70,45 +85,155 @@ const InvestorContainer = () => {
     }
 
     const onAdd = async() => {
-        const response = await investorService.addInvestor({ho:ho, ten:name, ngaySinh:dayOfBitrh, diaChi:address,
-                                                            gioiTinh:sex,noisinh:placeOfBirth,email:email,cmnd:cmnd,
-                                                            ngaycap:ngaycap,matkhau:password, matkhaudatlenh:passwordCommand
-                                                            });
-        
-        if(response.isSuccess){
-            alert('Thêm thành công');
-            initDta();
-        }else{
-            alert('Thêm thất bại');
+        try{
+            validation.inputNullValidation({values:ho, notification:"Họ không để trống"});
+            validation.inputNullValidation({values:name, notification:"Tên không để trống"});
+            validation.inputNullValidation({values:dayOfBitrh, notification:"NGày sinh không để trống"});
+            validation.inputNullValidation({values:address, notification:"Địa chỉ không để trống"});
+            validation.inputNullValidation({values:email, notification:"Email không để trống"});
+            validation.inputNullValidation({values:cmnd, notification:"CMND không để trống"});
+
+            const response = await investorService.addInvestor({ho:ho, ten:name, ngaySinh:dayOfBitrh, diaChi:address,
+                                                                gioiTinh:sex,noisinh:placeOfBirth,email:email,cmnd:cmnd,
+                                                                ngaycap:ngaycap,matkhau:password, matkhaudatlenh:passwordCommand
+                                                                });
+
+            if(response.isSuccess){
+                alert('Thêm thành công');
+                initDta();
+            }else{
+                alert('Thêm thất bại');
+            }
+
+
+        }catch(error){
+            alert(error)
         }
     }
 
     const onUpdate = async() => {
-        const response = await investorService.updateInvestor({idNDT:maNDT,ho:ho, ten:name, ngaySinh:dayOfBitrh, diaChi:address,
-                                                                gioiTinh:sex,noisinh:placeOfBirth,email:email,cmnd:cmnd,
-                                                                ngaycap:ngaycap,matkhau:password, matkhaudatlenh:passwordCommand
-                                                            });
+        try{
+            validation.inputNullValidation({values:ho, notification:"Họ không để trống"});
+            validation.inputNullValidation({values:name, notification:"Tên không để trống"});
+            validation.inputNullValidation({values:dayOfBitrh, notification:"NGày sinh không để trống"});
+            validation.inputNullValidation({values:address, notification:"Địa chỉ không để trống"});
+            validation.inputNullValidation({values:email, notification:"Email không để trống"});
+            validation.inputNullValidation({values:cmnd, notification:"CMND không để trống"});
+            validation.inputNullValidation({values:maNDT, notification:"Bạn chưa chọn dòng nào"});
 
-        if(response.isSuccess){
-            alert('Sửa thành công');
-            initDta();
-        }else{
-            alert('Sửa thất bại');
+            const response = await investorService.updateInvestor({idNDT:maNDT,ho:ho, ten:name, ngaySinh:dayOfBitrh, diaChi:address,
+                                                                        gioiTinh:sex,noisinh:placeOfBirth,email:email,cmnd:cmnd,
+                                                                        ngaycap:ngaycap,matkhau:password, matkhaudatlenh:passwordCommand
+                                                                    });
+
+            if(response.isSuccess){
+                alert('Sửa thành công');
+                initDta();
+            }else{
+                alert('Sửa thất bại');
+            }
+        }catch(error){
+            alert(error);
         }
+
+        
     }
 
     const onDelete = async() => {
-        const response = await investorService.deleteInvestor({id:maNDT});
-        if(response.isSuccess){
-            alert('Xóa thành công');
-            initDta();
-        }else{
-            alert('Xóa thất bại');
+        try{
+            validation.inputNullValidation({values:maNDT, notification:"Bạn chưa chọn dòng nào"});
+
+            const response = await investorService.deleteInvestor({id:maNDT});
+            if(response.isSuccess){
+                alert('Xóa thành công');
+                initDta();
+            }else{
+                alert('Xóa thất bại');
+            }
+        }catch(error){
+            alert(error);
         }
+    }
+
+    const handleRowClickNH = async(rowData) => {
+        setMatknh(rowData['MATK']);
+        setTenTKNH(rowData['Tên tài khoản']);
+        setSoDu(rowData['Số dư']);
+        const defaultOption = options.find(option => option.label === rowData['Ngân hàng']);
+        setSelectedOption(defaultOption);
+
+    }
+
+    const onRefreshNH = async() => {
+        setMatknh('');
+        setTenTKNH('');
+        setSoDu('');
+        initBankAcount(maNDT);
+    }
+
+    const onAddNH = async() => {
+        try{
+            validation.inputNullValidation({values:maNDT, notification:"Bạn chưa chọn dòng nào"});
+            validation.inputNullValidation({values:matknh, notification:"Bạn chưa chọn dòng nào"});
+            validation.inputNullValidation({values:sodu, notification:"Số dư không dược để trống"});
+            const response = await bankService.addBankAccount({matk:matknh, tentaikhoan:tenTKNH, idndt:maNDT, sodu:sodu, idnganhang:selectedOption.value});
+            if(response.isSuccess){
+                alert('Thêm thành công');
+                initBankAcount(maNDT);
+            }else{
+                alert('Thêm thất bại');
+            }
+
+        }catch(error){
+            alert(error)
+        }
+
+        
+    }
+
+    const onDeleteNH = async() => {
+        try{
+            validation.inputNullValidation({values:maNDT, notification:"Bạn chưa chọn dòng nào"});
+            validation.inputNullValidation({values:matknh, notification:"Bạn chưa chọn dòng nào"});
+
+            const response = await bankService.deleteBankAccount({matk:matknh});
+            if(response.isSuccess){
+                alert("Xóa thành công");
+                initBankAcount(maNDT);
+            }else{
+                alert("Xóa thất bại");
+            }
+
+        }catch(error){
+            alert(error)
+        }
+
+        
+    }
+
+    const onUpdateNH = async() => {
+        try{
+            validation.inputNullValidation({values:maNDT, notification:"Bạn chưa chọn dòng nào"});
+            validation.inputNullValidation({values:matknh, notification:"Bạn chưa chọn dòng nào"});
+            validation.inputNullValidation({values:sodu, notification:"Số dư không dược để trống"});
+
+            const response = await bankService.updateBankAccount({matk:matknh, tentaikhoan:tenTKNH, idndt:maNDT, sodu:sodu, idnganhang:selectedOption.value});
+            if(response.isSuccess){
+                alert('Cập nhật thành công');
+                initBankAcount(maNDT);
+            }else{
+                alert('Cập nhật thất bại');
+            }
+
+        }catch(error){
+            alert(error)
+        }
+        
     }
 
     useEffect(() => {
         initDta();
+        initBank();
     },[]);
 
     return(
@@ -133,6 +258,9 @@ const InvestorContainer = () => {
                   onRefresh={onRefresh}
                   onAdd={onAdd}
                   onDelete={onDelete} onUpdate={onUpdate}
+                  handleRowClickNH={handleRowClickNH}
+                  onRefreshNH={onRefreshNH}
+                  onAddNH={onAddNH} onDeleteNH={onDeleteNH} onUpdateNH={onUpdateNH}
         />
     )
 }
