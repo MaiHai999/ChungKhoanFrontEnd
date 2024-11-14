@@ -31,3 +31,35 @@ export const mapEmployeeData = (backendData) => {
     });
 };
 
+
+export const mapInvestorData = (backendData) => {
+    const propertyMapping = {
+        "MATK": "MATK",
+        "HO": "Họ",
+        "TEN": "Tên",
+        "NGAYSINH": "Ngày sinh",
+        "NOISINH": "Nơi sinh",
+        "DIACHI": "Địa chỉ",
+        "GIOITINH": "Giới tính",
+        "EMAIL": "Email",
+        "CMND": "CMND",
+        "NGAYCAP": "Ngày Cấp",
+        "MATKHAU": "Mật khẩu",
+        "MATKHAUDATLENH": "Mật khẩu đặt lệnh"
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
