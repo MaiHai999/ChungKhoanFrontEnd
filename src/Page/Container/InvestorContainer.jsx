@@ -16,7 +16,7 @@ const InvestorContainer = () => {
     const [password, setPassword] = useState(null);
     const [dataNDT, setDataNDT] = useState([]);
     const [dataTKNH, setDataTKNH] = useState([]);
-    const [ho, setHo] = useState([]);
+    const [ho, setHo] = useState(null);
     const [cmnd, setCmnd] = useState(null);
     const [email, setEmail] = useState(null);
     const [placeOfBirth, setPlaceOfBirth] = useState(null);

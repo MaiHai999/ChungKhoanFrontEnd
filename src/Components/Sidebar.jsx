@@ -12,7 +12,7 @@ import { IoLogOut } from "react-icons/io5";
 import { ConfigVariable } from '../config';
 
 
-const Sidebar = ({ onItemClick, role }) => {
+const Sidebar = ({ onItemClick, role , onLogout}) => {
   return (
     <div className='sidebar'>
       <div className='top'>
@@ -33,7 +33,7 @@ const Sidebar = ({ onItemClick, role }) => {
                 <RiAlignItemBottomFill className='icon' />
                 <span className="title2">Quản trị nhà đầu tư</span>
               </li>
-              <li onClick={() => onItemClick(ConfigVariable.NDTtapSoDu)}>
+              <li onClick={() => onItemClick(ConfigVariable.NVtapQLSoDu)}>
                 <FaMoneyBillAlt className='icon' />
                 <span className="title2">Tra cứu số dư</span>
               </li>
@@ -73,7 +73,7 @@ const Sidebar = ({ onItemClick, role }) => {
           )}
 
           <p className='title'>TÀI KHOẢN</p>
-          <li>
+          <li onClick={onLogout}>
             <IoLogOut className='icon' />
             <span className="title2">Đăng xuất</span>
           </li>

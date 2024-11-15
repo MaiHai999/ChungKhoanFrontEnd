@@ -31,7 +31,6 @@ export const mapEmployeeData = (backendData) => {
     });
 };
 
-
 export const mapInvestorData = (backendData) => {
     const propertyMapping = {
         "MATK": "MATK",
@@ -91,6 +90,51 @@ export const mapBankAccountData = (backendData) => {
         "TENNGANHANG": "Ngân hàng",
         "SODU": "Số dư",
         "IDNGANHANG" : "ID Ngan hàng"
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+export const mapInvestorDataCompobox = (backendData) => {
+    const propertyMapping = {
+        "MATK": "value",
+        "TEN": "label",
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+
+export const mapReportSoHuuCP = (backendData) => {
+    const propertyMapping = {
+        "GIA": "Đơn giá",
+        "GIATRI": "Trị giá",
+        "MACP": "MACP",
+        "SOLUONG": "Số lượng",
     };
 
     const mappedData = {};

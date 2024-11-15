@@ -4,17 +4,13 @@ import { ConfigVariable } from '../../config';
 import React, { useState } from 'react';
 import EmployeeContainer from '../Container/EmployeeContainer';
 import InvestorContainer from '../Container/InvestorContainer';
+import ReportStockContainer from '../Container/ReportStockContainer';
 
-const Home = ({role = ConfigVariable.roleNV}) => {
-  const [currentView, setCurrentView] = useState(ConfigVariable.NVtapQLNV);
-
-  const onItemClick = (key) => {
-    setCurrentView(key);
-  }
+const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}) => {
 
   return (
     <div className='home'>
-      <Sidebar onItemClick={onItemClick} role={role}/>
+      <Sidebar onItemClick={onItemClick} role={role} onLogout={onLogout}/>
       <div className='homeContainer'>
         {currentView === ConfigVariable.NVtapQLNV && (
           <EmployeeContainer />
@@ -22,6 +18,10 @@ const Home = ({role = ConfigVariable.roleNV}) => {
 
         {currentView === ConfigVariable.NVtapQLNDT && (
           <InvestorContainer />
+        )}
+
+        {currentView === ConfigVariable.NVtapQLSoDu && (
+          <ReportStockContainer />
         )}
         
       </div>
