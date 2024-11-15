@@ -1,10 +1,11 @@
 import Sidebar from '../../Components/Sidebar';
 import '../../Styles/Home.css';
 import { ConfigVariable } from '../../config';
-import React, { useState } from 'react';
 import EmployeeContainer from '../Container/EmployeeContainer';
 import InvestorContainer from '../Container/InvestorContainer';
 import ReportStockContainer from '../Container/ReportStockContainer';
+import EmployeeSanContainer from '../Container/EmployeeSanContainer';
+import StockContainer from '../Container/StockContainer';
 
 const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}) => {
 
@@ -23,6 +24,16 @@ const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}
         {currentView === ConfigVariable.NVtapQLSoDu && (
           <ReportStockContainer />
         )}
+
+        {currentView === ConfigVariable.SoGDtapQLNVSan && (
+          <EmployeeSanContainer />
+        )}
+
+        {currentView === ConfigVariable.SoGDtapQLCoPhieu && (
+          <StockContainer />
+        )}
+
+
         
       </div>
     </div>

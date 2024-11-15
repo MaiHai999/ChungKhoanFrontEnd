@@ -72,3 +72,15 @@ export const updateEmployee = async({IDNV,ho, ten, ngaySinh, diaChi, gioiTinh, s
     }
 }
 
+
+export const getEmployeeSan = async() => {
+    try {
+        const urlCall = URL + "employee/getNVSan";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}
+
