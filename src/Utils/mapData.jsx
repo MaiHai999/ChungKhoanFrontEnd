@@ -179,6 +179,32 @@ export const mapStockData = (backendData) => {
 };
 
 
+export const mapStockPriceData = (backendData) => {
+    const propertyMapping = {
+        "GIASAN": "Giá sàn",
+        "GIATHAMCHIEU": "Giá tham chiều",
+        "GIATRAN": "Giá trần",
+        "ID": "ID",
+        "IDCOPHIEU": "MACP",
+        "NGAY": "Ngày",
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+
 
 
 
