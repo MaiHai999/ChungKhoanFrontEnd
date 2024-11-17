@@ -85,3 +85,54 @@ export const getStockPrice = async({macp}) => {
         return createResponseFrame(false, error);
     }
 }
+
+export const addStockPrice = async({macp, ngay, giasan, giatran, giathamchieu}) => {
+    try {
+        const data = {
+            "ngay": ngay,
+            "giasan": giasan,
+            "giatran": giatran,
+            "giathamchieu": giathamchieu,
+            "idcophieu": macp
+        }
+        const urlCall = URL + "price/addPrice";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token, data:data})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}
+
+export const deleteStockPrice = async({magia}) => {
+    try {
+        const data = {
+            "magia" : magia
+        }
+        const urlCall = URL + "price/deletePrice";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token, data:data})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}
+
+export const updateStockPrice = async({idGia,macp, ngay, giasan, giatran, giathamchieu}) => {
+    try {
+        const data = {
+            "id": idGia,
+            "ngay": ngay,
+            "giasan": giasan,
+            "giatran": giatran,
+            "giathamchieu": giathamchieu,
+            "idcophieu": macp
+        }
+        const urlCall = URL + "price/updatePrice";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token, data:data})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}

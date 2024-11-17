@@ -2,7 +2,7 @@ import Stock from "../UIContainer/Stock";
 import * as stockService from "../../Services/StockService";
 import React, { useState, useEffect } from 'react';
 import { mapStockData, mapStockPriceData } from "../../Utils/mapData";
-
+import * as validation from "../../Utils/ValidationHanler";
 
 
 const StockContainer = () => {
@@ -30,6 +30,14 @@ const StockContainer = () => {
         }
     }
 
+    const initDataPrice = async(MACP) => {
+        const response = await stockService.getStockPrice({macp:MACP});
+        if(response.isSuccess){
+            const dataProcess = await mapStockPriceData(response.data.data);
+            setDataStockPrice(dataProcess);
+        }
+    }
+
     useEffect(() => {
         initData();
     }, []);
@@ -42,32 +50,41 @@ const StockContainer = () => {
         setFax(rowData.Fax ?? '');
         setName(rowData["Tên công ty"] ?? '');
         setNumCP(rowData["Số lượng cổ phiếu"] ?? '');
-
-        const response = await stockService.getStockPrice({macp:rowData.MACP});
-        if(response.isSuccess){
-            const dataProcess = await mapStockPriceData(response.data.data);
-            setDataStockPrice(dataProcess);
-        }
+        initDataPrice(rowData.MACP);
     }
 
     const onAdd = async() => {
-        const response = await stockService.addStock({macp:macp, ten_cong_ty:name, dia_chi: address, sdt:phone, fax:fax, email:email, tong_so_luong_cp:numCP});
-        if(response.isSuccess){
-            alert("Thêm thành công ");
-            initData();
-        }else{
-            alert("Thất bại");
+        try{
+            validation.inputNullValidation({values:macp, notification:"Không được để trống mã cổ phiếu"});
+            validation.inputNullValidation({values:name, notification:"Không được để trống tên công ty"});
+            validation.inputNullValidation({values:address, notification:"Không được để trống địa chỉ"});
+            const response = await stockService.addStock({macp:macp, ten_cong_ty:name, dia_chi: address, sdt:phone, fax:fax, email:email, tong_so_luong_cp:numCP});
+            if(response.isSuccess){
+                alert("Thêm thành công ");
+                initData();
+            }else{
+                alert("Thất bại");
+            }
+        }catch(error){
+            alert(error);
         }
+        
     }
 
     const onDelete = async() => {
-        const response = await stockService.deleteStock({macp:macp});
-        if(response.isSuccess){
-            alert('Xóa thành công');
-            onRefresh();
-        }else{
-            alert("Xóa thất bại");
+        try{
+            validation.inputNullValidation({values:macp, notification:"Không được để trống mã cổ phiếu"});
+            const response = await stockService.deleteStock({macp:macp});
+            if(response.isSuccess){
+                alert('Xóa thành công');
+                onRefresh();
+            }else{
+                alert("Xóa thất bại");
+            }
+        }catch(error){
+            alert(error);
         }
+        
     }
 
     const onRefresh = () => {
@@ -82,14 +99,22 @@ const StockContainer = () => {
     }
 
     const onUpdate = async() => {
-        console.log(name, 'Hai pro');
-        const response = await stockService.updateStock({macp:macp, ten_cong_ty:name, dia_chi: address, sdt:phone, fax:fax, email:email, tong_so_luong_cp:numCP});
-        if(response.isSuccess){
-            alert("Cập nhật thành công ");
-            initData();
-        }else{
-            alert("Thất bại");
+        try{
+            validation.inputNullValidation({values:macp, notification:"Không được để trống mã cổ phiếu"});
+            validation.inputNullValidation({values:name, notification:"Không được để trống tên công ty"});
+            validation.inputNullValidation({values:address, notification:"Không được để trống địa chỉ"});
+
+            const response = await stockService.updateStock({macp:macp, ten_cong_ty:name, dia_chi: address, sdt:phone, fax:fax, email:email, tong_so_luong_cp:numCP});
+            if(response.isSuccess){
+                alert("Cập nhật thành công ");
+                initData();
+            }else{
+                alert("Thất bại");
+            }
+        }catch(error){
+            alert(error);
         }
+       
     }
 
     const handleRowClickPrice = async(rowData) => {
@@ -108,13 +133,65 @@ const StockContainer = () => {
         setPriceLow('');
         setDate('');
         setIDPrice('');
+        initDataPrice(macpPrice);
     }
 
     const onAddPrice = async() => {
+        try{
+            validation.inputNullValidation({values:macpPrice, notification:"Không được để trống"});
+            validation.inputNullValidation({values:priceLow, notification:"Không được để trống"});
+            validation.inputNullValidation({values:priceHight, notification:"Không được để trống"});
+            validation.inputNullValidation({values:price, notification:"Không được để trống"});
+            validation.inputNullValidation({values:date, notification:"Không được để trống"});
 
+            const response = await stockService.addStockPrice({macp:macpPrice, ngay:date, giasan:priceLow, giatran:priceHight, giathamchieu:price});
+            if(response.isSuccess){
+                alert('Thêm thành công');
+                initDataPrice(macpPrice);
+            }else{
+                alert('Thất bại');
+            }
+        }catch(error){
+            alert(error);
+        }
     }
 
+    const onDeletePrice = async() => {
+        try{
+            validation.inputNullValidation({values:macpPrice, notification:"Không được để trống"});
+            const response = await stockService.deleteStockPrice({magia:IDPrice});
+            if(response.isSuccess){
+                alert("Xóa thành công");
+                onRefreshPrice();
+            }else{
+                alert("Xóa thành công");
+            }
+        }catch(error){
+            alert(error);
+        }
+        
+    }
 
+    const onUpdatePrice = async() => {
+        try{
+            validation.inputNullValidation({values:macpPrice, notification:"Không được để trống"});
+            validation.inputNullValidation({values:priceLow, notification:"Không được để trống"});
+            validation.inputNullValidation({values:priceHight, notification:"Không được để trống"});
+            validation.inputNullValidation({values:price, notification:"Không được để trống"});
+            validation.inputNullValidation({values:date, notification:"Không được để trống"});
+            
+            const response = await stockService.updateStockPrice({idGia:IDPrice ,macp:macpPrice, ngay:date, giasan:priceLow, giatran:priceHight, giathamchieu:price});
+            if(response.isSuccess){
+                alert('Sửa thành công');
+                initDataPrice(macpPrice);
+            }else{
+                alert('Thất bại');
+            }
+        }catch(error){
+            alert(error);
+        }
+        
+    }
 
     return(
         <Stock 
@@ -134,7 +211,8 @@ const StockContainer = () => {
             setPriceHight={setPriceHight} priceHight={priceHight}
             setPriceLow={setPriceLow} priceLow={priceLow}
             setDate={setDate} date={date} handleRowClickPrice={handleRowClickPrice} 
-            onRefreshPrice={onRefreshPrice} onAddPrice={onAddPrice}/>
+            onRefreshPrice={onRefreshPrice} onAddPrice={onAddPrice}
+            onDeletePrice={onDeletePrice} onUpdatePrice={onUpdatePrice}/>
     )
 }
 
