@@ -10,21 +10,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const StockOfNDT = ({dataStockSH=[], numOfAccount=0, dataStockKhop=[], 
                      selectedDate, setSelectedDate, selectedDateEnd, 
-                     setSelectedDateEnd, onSaoKe
+                     setSelectedDateEnd, onSaoKe, dataStockKhopCT = [], handleRowClick
     }) => {
     const titles = ['MACP', 'Số lượng', 'Đơn giá', 'Trị giá'];
     const titles1 = ['Ngày giờ khớp', 'Mã CP', 'Loại giao dịch', 'Loại lệnh', 'Số lượng khớp', 'Giá khớp'];
+    const titles2 = ['Thời gian', 'Số lượng khớp', 'Giá khớp'];
 
     return(
         <div className='listContainer'>
              <div className="title1">Số dư chứng khoán niêm yết</div>
-             <TableComponent titles={titles} data={dataStockSH} />
+             <TableComponent titles={titles} data={dataStockSH} handleRowClick={handleRowClick}/>
+             <div className="title1">Chi tiết khớp lệnh</div>
+             <TableComponent titles={titles2} data={dataStockKhopCT} handleRowClick={()=>{}}/>
              <div className="title1">Số dư tài khoản</div>
              <div className="inline-container">
                 <p>Tổng số dư trong các tài khoản : </p>
                 <p>{numOfAccount}</p>
              </div>
+
              <div className="title1">Sao kê lệnh khớp</div>
+             <TableComponent titles={titles1} data={dataStockKhop} handleRowClick={()=>{}}/>
+
              <div className="grid-container12">
                 <div className="grid-item">
                     <DatePicker
@@ -48,7 +54,7 @@ const StockOfNDT = ({dataStockSH=[], numOfAccount=0, dataStockKhop=[],
                 
                 
              </div>
-            <TableComponent titles={titles1} data={dataStockKhop} />
+            <TableComponent titles={titles1} data={dataStockKhop} handleRowClick={()=>{}}/>
              
         </div>
     )

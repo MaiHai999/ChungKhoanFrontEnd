@@ -20,7 +20,6 @@ export const getReportSoHuCP = async({idNDT}) => {
     }
 }
 
-
 export const getTotalBalance = async({idNDT}) => {
     try {
         const data = {
@@ -43,6 +42,21 @@ export const getSaoKe = async({idNDT=0, StartDate, EndDate}) => {
             "EndDate" : EndDate
         }
         const urlCall = URL + "report/getSaoKe";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token, data:data})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}
+
+export const getCTKHOPLENH = async({MACP, idNDT=0}) => {
+    try {
+        const data = {
+            "idNDT" : idNDT,
+            "MACP" : MACP
+        }
+        const urlCall = URL + "report/getCTKHOPLENH";
         const token = await tokenHanler.getAccessToken();
         const response = await CallAPI({url:urlCall,token:token, data:data})
         return createResponseFrame(true, response.data);

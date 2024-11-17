@@ -3,7 +3,7 @@
 import StockOfNDT from "../UIContainer/StockOfNDT";
 import * as reportStockService from "../../Services/ReportService";
 import React, { useState, useEffect } from 'react';
-import { mapReportSoHuuCP, mapStockReportKhopData } from "../../Utils/mapData";
+import { mapReportSoHuuCP, mapStockReportKhopData , mapStockReportCTKhopData} from "../../Utils/mapData";
 import * as validation from "../../Utils/ValidationHanler";
 
 
@@ -11,6 +11,7 @@ import * as validation from "../../Utils/ValidationHanler";
 const StockOfNDTContainer = () => {
     const [dataStockSH, setDataStockSH] = useState([]);
     const [dataStockKhop, setDataStockKhop] = useState([]);
+    const [dataStockKhopCT, setDataStockKhopCT] = useState([]);
     const [numOfAccount, setNumOfAccount] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null); 
     const [selectedDateEnd, setSelectedDateEnd] = useState(null); 
@@ -46,6 +47,14 @@ const StockOfNDTContainer = () => {
         }
     }
 
+    const handleRowClick = async(rowData) => {
+        const response = await reportStockService.getCTKHOPLENH({MACP:rowData['MACP']});
+        if(response.isSuccess){
+            const dataProcess = await mapStockReportCTKhopData(response.data.data);
+            setDataStockKhopCT(dataProcess);
+        }
+    }
+
     return(
         <StockOfNDT 
             dataStockSH={dataStockSH} 
@@ -56,6 +65,8 @@ const StockOfNDTContainer = () => {
             selectedDateEnd={selectedDateEnd}
             onSaoKe={onSaoKe}
             dataStockKhop={dataStockKhop}
+            handleRowClick={handleRowClick}
+            dataStockKhopCT={dataStockKhopCT}
         />
     )
 }
