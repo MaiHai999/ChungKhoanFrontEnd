@@ -205,6 +205,33 @@ export const mapStockPriceData = (backendData) => {
 };
 
 
+export const mapStockReportKhopData = (backendData) => {
+    const propertyMapping = {
+        "GIAKHOP": "Giá khớp",
+        "LOAIGD": "Loại giao dịch",
+        "LOAILENH": "Loại lệnh",
+        "MACP": "Mã CP",
+        "NGAYKHOP": "Ngày giờ khớp",
+        "SOLUONGKHOP": "Số lượng khớp",
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
+
+
 
 
 

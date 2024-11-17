@@ -17,3 +17,8 @@
     color: gray;
     margin-bottom: 15px;
 }
+
+.inline-container {
+    display: flex;
+    align-items: center; /* Vertically align content */
+  }

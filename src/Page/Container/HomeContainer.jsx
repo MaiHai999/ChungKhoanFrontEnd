@@ -16,7 +16,7 @@ const HomeContainer = () => {
         }else if(role === ConfigVariable.roleSoGD){
             setCurrentView(ConfigVariable.SoGDtapQLNVSan);
         }else{
-            setCurrentView(ConfigVariable.NDTtapBan);
+            setCurrentView(ConfigVariable.NDTtapSoDu);
         }
     }, []);
 

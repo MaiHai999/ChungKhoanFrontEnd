@@ -6,6 +6,7 @@ import InvestorContainer from '../Container/InvestorContainer';
 import ReportStockContainer from '../Container/ReportStockContainer';
 import EmployeeSanContainer from '../Container/EmployeeSanContainer';
 import StockContainer from '../Container/StockContainer';
+import StockOfNDTContainer from '../Container/StockOfNDTContainer';
 
 const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}) => {
 
@@ -33,8 +34,10 @@ const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}
           <StockContainer />
         )}
 
+        {currentView === ConfigVariable.NDTtapSoDu && (
+          <StockOfNDTContainer/>
+        )}
 
-        
       </div>
     </div>
   )
