@@ -253,6 +253,35 @@ export const mapStockReportCTKhopData = (backendData) => {
 };
 
 
+export const mapStockCompoboxData = (backendData) => {
+    return backendData.map((item) => ({
+        value: item.MACP,
+        label: item.MACP,
+    }));
+};
+
+
+export const mapBankAccountCompoboxData = (backendData) => {
+    const propertyMapping = {
+        "MATK": "value",
+        "TENTAIKHOAN": "label",
+    };
+
+    const mappedData = {};
+
+    return backendData.map(employee => {
+        const mappedData = {};
+
+        for (const key in employee) {
+            if (propertyMapping[key]) {
+                mappedData[propertyMapping[key]] = employee[key];
+            }
+        }
+
+        return mappedData;
+    });
+};
+
 
 
 

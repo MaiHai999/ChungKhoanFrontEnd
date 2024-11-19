@@ -7,6 +7,7 @@ import ReportStockContainer from '../Container/ReportStockContainer';
 import EmployeeSanContainer from '../Container/EmployeeSanContainer';
 import StockContainer from '../Container/StockContainer';
 import StockOfNDTContainer from '../Container/StockOfNDTContainer';
+import OrderContainer from '../Container/OrderContainer';
 
 const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}) => {
 
@@ -36,6 +37,10 @@ const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}
 
         {currentView === ConfigVariable.NDTtapSoDu && (
           <StockOfNDTContainer/>
+        )}
+
+        {currentView === ConfigVariable.NDTtapBan && (
+          <OrderContainer/>
         )}
 
       </div>

@@ -136,3 +136,18 @@ export const updateStockPrice = async({idGia,macp, ngay, giasan, giatran, giatha
         return createResponseFrame(false, error);
     }
 }
+
+
+export const getStockPriceNow = async({macp}) => {
+    try {
+        const data = {
+            "macp": macp,
+        }
+        const urlCall = URL + "price/getPriceNow";
+        const token = await tokenHanler.getAccessToken();
+        const response = await CallAPI({url:urlCall,token:token, data:data})
+        return createResponseFrame(true, response.data);
+    } catch (error) {
+        return createResponseFrame(false, error);
+    }
+}
