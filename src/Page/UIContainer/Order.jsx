@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import '../../Styles/Sell.css';
 import Select from 'react-select';
 
-const Sell = ({options=[],formData, setFormData, optionsTKNH=[], tongMoneySell=0, isClose= false, 
-               price, priceLow, priceHight, handleChange
+const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClose= false, 
+               price, priceLow, priceHight, handleChange, onSell= ()=>{}
             }) => {
 
       const customStyles = {
@@ -30,19 +30,12 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], tongMoneySell=0
       const handleChange1 = (selectedOption) => {
         setFormData((prevData) => ({
           ...prevData,
-          orderType: selectedOption ? selectedOption.value : "",
+          account: selectedOption ? selectedOption.value : "",
         }));
       };
     
       return (
-        <form
-          className="sell-order-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("Form data:", formData);
-            alert("Lệnh đã được gửi!");
-          }}
-        >
+        <form className="sell-order-form">
           <h2>ĐẶT LỆNH BÁN</h2>
           <div className="form-group">
             <label>Chứng khoán</label>
@@ -57,6 +50,7 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], tongMoneySell=0
                 <span>Giá tham chiếu: {price}</span>
                 <span>Giá sàn: {priceLow}</span>
                 <span>Giá trần: {priceHight}</span>
+                <span>Số lượng cổ phiếu có thể bán: {maxSL}</span>
             </div>
           </div>
           <div className="form-group">
@@ -69,7 +63,7 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], tongMoneySell=0
                   value="LO"
                   checked={true}
                   onChange={(e) =>
-                    setFormData({ ...formData, orderType: e.target.value })
+                    setFormData({ ...formData, orderType: "LO" })
                   }
                 />
                 Lệnh giới hạn (LO)
@@ -123,10 +117,9 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], tongMoneySell=0
             />
           </div>
           <div className="total-sell-price">
-          <p>Tổng số tiền mua: <b>{tongMoneySell}</b></p>
           </div>
           <div className="form-footer">
-            <button type="submit" disabled>Đặt lệnh bán</button>
+            <button type="button" onClick={onSell}>Đặt lệnh bán</button>
           </div>
           {isClose && (
              <p className="notification">HOSE: Đã kết thúc ngày làm việc.</p>

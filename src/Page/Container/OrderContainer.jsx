@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import * as mapData from "../../Utils/mapData";
 import * as stockService from "../../Services/StockService";
 import * as bankService from "../../Services/BankService";
+import * as validation from "../../Utils/ValidationHanler";
+import { addOrder } from "../../Services/OrderService";
 
 const OrderContainer = () => {
     const [options, setOptions] = useState([]);
@@ -11,6 +13,7 @@ const OrderContainer = () => {
     const [price, setPrice] = useState(null);
     const [priceHight, setPriceHight] = useState(null);
     const [priceLow, setPriceLow] = useState(null);
+    const [slCoPhieu, setSlCoPhieu] = useState(null);
 
     const [formData, setFormData] = useState({
         stock: "",
@@ -44,6 +47,7 @@ const OrderContainer = () => {
             setPrice(price.price);
             setPriceLow(price.priceLow);
             setPriceHight(price.priceHight);
+            setSlCoPhieu(price.maxSL);
         }
     }
 
@@ -60,6 +64,32 @@ const OrderContainer = () => {
         initDataTKNH();
     }, []);
 
+    const onSell = async() => {
+        try{
+            validation.inputNullValidation({values:formData.account, notification:"Bạn phải chọn tài khoản"});
+            validation.inputNullValidation({values:formData.orderType, notification:"Bạn phải chọn loại giao dịch"});
+            validation.inputNullValidation({values:formData.password, notification:"Bạn phải nhập mật khẩu"});
+            validation.inputNullValidation({values:formData.price, notification:"Bạn phải nhập giá"});
+            validation.inputNullValidation({values:formData.quantity, notification:"Bạn phải nhập số lượng"});
+            validation.inputNullValidation({values:formData.stock, notification:"Bạn phải chọn cổ phiếu"});
+            const gia = parseFloat(formData.price);
+            const soLuong = parseFloat(formData.quantity);
+            if(soLuong < 0 || soLuong > slCoPhieu || gia < 0){
+                throw new Error('Giá hoặc số lượng không hợp lệ');
+            }
+  
+            const response = await addOrder({matknh:formData.account, macp:formData.stock, loailenh:formData.orderType, loaigd:'B', soluong: soLuong, gia:gia});
+            if(response.isSuccess){
+                alert('Thành công');
+            }else{
+                alert('Thất bại');
+            }
+            
+        }catch(error){
+            alert(error);
+        }
+    }
+
     return(
         <Sell options={options} 
               formData={formData} 
@@ -69,6 +99,8 @@ const OrderContainer = () => {
               priceHight={priceHight}
               priceLow={priceLow}
               handleChange={handleChange}
+              maxSL={slCoPhieu}
+              onSell={onSell}
         />
     )
 }
