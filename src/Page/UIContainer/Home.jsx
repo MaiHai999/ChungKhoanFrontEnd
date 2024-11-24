@@ -8,6 +8,7 @@ import EmployeeSanContainer from '../Container/EmployeeSanContainer';
 import StockContainer from '../Container/StockContainer';
 import StockOfNDTContainer from '../Container/StockOfNDTContainer';
 import OrderContainer from '../Container/OrderContainer';
+import OrderBuyContainer from '../Container/OrderBuyContainer';
 
 const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}) => {
 
@@ -41,6 +42,10 @@ const Home = ({role = ConfigVariable.roleNV, onLogout, onItemClick, currentView}
 
         {currentView === ConfigVariable.NDTtapBan && (
           <OrderContainer/>
+        )}
+
+        {currentView === ConfigVariable.NDTtapMua && (
+          <OrderBuyContainer/>
         )}
 
       </div>

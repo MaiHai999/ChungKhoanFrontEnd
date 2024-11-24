@@ -265,6 +265,7 @@ export const mapBankAccountCompoboxData = (backendData) => {
     const propertyMapping = {
         "MATK": "value",
         "TENTAIKHOAN": "label",
+        "SODU": "SODU", 
     };
 
     const mappedData = {};

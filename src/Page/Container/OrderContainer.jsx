@@ -7,13 +7,14 @@ import * as bankService from "../../Services/BankService";
 import * as validation from "../../Utils/ValidationHanler";
 import { addOrder } from "../../Services/OrderService";
 
-const OrderContainer = () => {
+const OrderContainer = ({isSell = true}) => {
     const [options, setOptions] = useState([]);
     const [optionsTKNH, setOptionsTKNH] = useState([]);
     const [price, setPrice] = useState(null);
     const [priceHight, setPriceHight] = useState(null);
     const [priceLow, setPriceLow] = useState(null);
     const [slCoPhieu, setSlCoPhieu] = useState(null);
+    const [tongMoney, setTongMoney] = useState(null);
 
     const [formData, setFormData] = useState({
         stock: "",
@@ -59,6 +60,14 @@ const OrderContainer = () => {
         initDataPrice(selectedOption.value);
       };
 
+    const handleChange1 = (selectedOption) => {
+        setTongMoney(selectedOption.SODU);
+        setFormData((prevData) => ({
+            ...prevData,
+            account: selectedOption ? selectedOption.value : "",
+        }));
+    };
+
     useEffect(() => {
         initData();
         initDataTKNH();
@@ -74,11 +83,17 @@ const OrderContainer = () => {
             validation.inputNullValidation({values:formData.stock, notification:"Bạn phải chọn cổ phiếu"});
             const gia = parseFloat(formData.price);
             const soLuong = parseFloat(formData.quantity);
-            if(soLuong < 0 || soLuong > slCoPhieu || gia < 0){
-                throw new Error('Giá hoặc số lượng không hợp lệ');
+            if(isSell){
+                if(soLuong < 0 || soLuong > slCoPhieu || gia < 0){
+                    throw new Error('Giá hoặc số lượng không hợp lệ');
+                }
+            }else{
+                if(soLuong * gia > tongMoney){
+                    throw new Error('Số tiền mua đã vượt qua số tiền trong tài khoản');
+                }
             }
-  
-            const response = await addOrder({matknh:formData.account, macp:formData.stock, loailenh:formData.orderType, loaigd:'B', soluong: soLuong, gia:gia});
+            
+            const response = await addOrder({matknh:formData.account, macp:formData.stock, loailenh:formData.orderType, loaigd:isSell ?'B':'M', soluong: soLuong, gia:gia});
             if(response.isSuccess){
                 alert('Thành công');
             }else{
@@ -101,6 +116,9 @@ const OrderContainer = () => {
               handleChange={handleChange}
               maxSL={slCoPhieu}
               onSell={onSell}
+              isSell={isSell}
+              handleChange1={handleChange1}
+              tongMoney={tongMoney}
         />
     )
 }

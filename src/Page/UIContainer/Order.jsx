@@ -3,7 +3,7 @@ import '../../Styles/Sell.css';
 import Select from 'react-select';
 
 const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClose= false, 
-               price, priceLow, priceHight, handleChange, onSell= ()=>{}
+               price, priceLow, priceHight, handleChange, onSell= ()=>{}, isSell, tongMoney = 0, handleChange1
             }) => {
 
       const customStyles = {
@@ -26,17 +26,11 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClos
             fontSize: '12px', 
         }),
     };
-
-      const handleChange1 = (selectedOption) => {
-        setFormData((prevData) => ({
-          ...prevData,
-          account: selectedOption ? selectedOption.value : "",
-        }));
-      };
     
       return (
         <form className="sell-order-form">
-          <h2>ĐẶT LỆNH BÁN</h2>
+          {isSell ? ( <h2>ĐẶT LỆNH BÁN</h2>) : ( <h2>ĐẶT LỆNH MUA</h2>)}
+         
           <div className="form-group">
             <label>Chứng khoán</label>
             <Select
@@ -50,7 +44,9 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClos
                 <span>Giá tham chiếu: {price}</span>
                 <span>Giá sàn: {priceLow}</span>
                 <span>Giá trần: {priceHight}</span>
-                <span>Số lượng cổ phiếu có thể bán: {maxSL}</span>
+                {isSell && (
+                  <span>Số lượng cổ phiếu có thể bán: {maxSL}</span>
+                )}
             </div>
           </div>
           <div className="form-group">
@@ -79,6 +75,11 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClos
                 placeholder="Chọn tài khoản ngân hàng"
                 styles={customStyles}
             />
+            {!isSell && (
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", color: "gray" }}>
+                <span>Số tiền tối đa có thể mua: {tongMoney}</span>
+              </div>
+            )}
           </div>
           <div className="form-group">
             <label>Số lượng</label>
@@ -119,7 +120,11 @@ const Sell = ({options=[],formData, setFormData, optionsTKNH=[], maxSL=0, isClos
           <div className="total-sell-price">
           </div>
           <div className="form-footer">
-            <button type="button" onClick={onSell}>Đặt lệnh bán</button>
+            {isSell ? (
+              <button type="button" onClick={onSell}>Đặt lệnh bán</button>
+            ) : (
+              <button type="button" onClick={onSell}>Đặt lệnh mua</button>
+            )}
           </div>
           {isClose && (
              <p className="notification">HOSE: Đã kết thúc ngày làm việc.</p>
