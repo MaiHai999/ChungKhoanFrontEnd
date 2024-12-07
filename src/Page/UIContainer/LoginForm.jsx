@@ -50,7 +50,7 @@ const LoginForm = ({ company,role,setCompany, setRole, userName, setUsername, pa
       </div>
 
       <div className='input-box'>
-        <InputCustom placeholder='UserName' text={password} setText={setPassword} />
+        <InputCustom placeholder='Password' text={password} setText={setPassword} type={'password'}/>
         <FaUnlock className='icon'/>
       </div>
 

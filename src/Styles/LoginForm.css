@@ -30,7 +30,7 @@ body.login-page {
     align-items: center; /* Căn chỉnh theo chiều dọc nếu cần */
 }
 .wrapperselect .select-box{
-    background: rebeccapurple;
+    background: transparent;
     border: none;
     outline: none;
     border: 2px solid rgba(255, 255, 255, .2);

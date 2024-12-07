@@ -1,10 +1,10 @@
 import React from 'react';
 import '../Styles/Entity.css';
 
-const InputCustom = ({ text, setText, placeholder = "Enter text" }) => {
+const InputCustom = ({ text, setText, placeholder = "Enter text" , type="text"}) => {
     return (
         <input
-            type="text"
+            type={type}
             placeholder={placeholder}
             value={text}
             className="input-custom"
