@@ -18,18 +18,18 @@ const StockOfNDT = ({dataStockSH=[], numOfAccount=0, dataStockKhop=[],
 
     return(
         <div className='listContainer'>
-             <div className="title1">Số dư chứng khoán niêm yết</div>
+             <div className="title1">DANH SÁCH CỔ PHIẾU</div>
              <TableComponent titles={titles} data={dataStockSH} handleRowClick={handleRowClick}/>
-             <div className="title1">Chi tiết khớp lệnh</div>
+             <div className="title1">CHI TIẾT KHỚP LỆNH</div>
              <TableComponent titles={titles2} data={dataStockKhopCT} handleRowClick={()=>{}}/>
-             <div className="title1">Số dư tài khoản</div>
+             <div className="title1">SỐ DƯ TÀI KHOẢN</div>
              <div className="inline-container">
                 <p>Tổng số dư trong các tài khoản : </p>
                 <p>{Math.round(numOfAccount)} VND</p>
              </div>
 
-             <div className="title1">Sao kê lệnh khớp</div>
-             <TableComponent titles={titles1} data={dataStockKhop} handleRowClick={()=>{}}/>
+             <div className="title1">SAO KÊ LỆNH KHỚP</div>
+             {/* <TableComponent titles={titles1} data={dataStockKhop} handleRowClick={()=>{}}/> */}
 
              <div className="grid-container12">
                 <div className="grid-item">
