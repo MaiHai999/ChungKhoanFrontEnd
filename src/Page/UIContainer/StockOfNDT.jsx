@@ -25,7 +25,7 @@ const StockOfNDT = ({dataStockSH=[], numOfAccount=0, dataStockKhop=[],
              <div className="title1">Số dư tài khoản</div>
              <div className="inline-container">
                 <p>Tổng số dư trong các tài khoản : </p>
-                <p>{numOfAccount}</p>
+                <p>{Math.round(numOfAccount)} VND</p>
              </div>
 
              <div className="title1">Sao kê lệnh khớp</div>
