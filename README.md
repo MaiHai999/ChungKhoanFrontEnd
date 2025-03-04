@@ -1,5 +1,3 @@
-# README - Frontend (ReactJS)
-
 ## Project Overview
 This project is the frontend for the stock trading management system on the HNX exchange. It is built using ReactJS and connects to a Flask-based backend with SQL Server as the database.
 
